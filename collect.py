@@ -18,7 +18,7 @@ def get_data():
     sql_file2 = open('query/expected_annual.sql')
     sql_file3 = open('query/expected_monthly.sql')
     sql_file4 = open('query/user_zone.sql')
-    sql_file5 = open('Queries/group_products.sql')
+    sql_file5 = open('Query/group_products.sql')
     sql_text1 = sql_file1.read()
     sql_text2 = sql_file2.read()
     sql_text3 = sql_file3.read()
