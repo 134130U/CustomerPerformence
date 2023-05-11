@@ -53,7 +53,6 @@ def get_data():
     connection.close()
 
     return ''
-get_data()
 
 # schedule.every().day.at("15:00").do(get_data)
 #

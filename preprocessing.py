@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import collect
 
-# collect.get_data()
+collect.get_data()
 
 df_annual = pd.read_csv('Data/annual.csv')
 df_mois  = pd.read_csv('Data/monthly.csv')
