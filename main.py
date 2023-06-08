@@ -206,248 +206,267 @@ def update_prod(c):
      Input('mois','value')]
 )
 
+def update_table(c, r, p, i, u, m):
+    filtered_data = data
+    if c:
+        filtered_data = filtered_data[filtered_data['country'].isin(c)]
+    if r:
+        filtered_data = filtered_data[filtered_data['region'].isin(r)]
+    if p:
+        filtered_data = filtered_data[filtered_data['category'].isin(p)]
+    if i:
+        filtered_data = filtered_data[filtered_data['payment_type'].isin(i)]
+    if u:
+        filtered_data = filtered_data[filtered_data['agent'].isin(u)]
+    if m:
+        filtered_data = filtered_data[filtered_data['reg_month'].isin(m)]
 
-def update_table(c,r,p,i,u,m):
-    if not c and not r and not p and not i and not u and not m:
-        tab1 = data.groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and not r and not p and not i and not u and not m:
-        tab1 = data[data['country'].isin(c)].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and not p and not i and not u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and not r and p and not i and not u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['category'].isin(p))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and not r and not p and i and not u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and not r and not p and not i and u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and not r and not p and not i and not u and m:
-        tab1 = data[(data['country'].isin(c))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and not i and not u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and not p and i and not u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and not p and not i and u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and not p and not i and not u and m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and i and not u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and not i and u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and not i and not u and m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and i and u and not m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and i and not u and m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if c and r and p and i and u and m:
-        tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and not p and not i and not u and not m:
-        tab1 = data[data['region'].isin(r)].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and i and u and m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and not p and i and u and m:
-        tab1 = data[(data['region'].isin(r))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and not p and not i and u and m:
-        tab1 = data[(data['region'].isin(r))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and not p and not i and not u and m:
-        tab1 = data[(data['region'].isin(r))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and not i and not u and not m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and i and not u and not m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and not i and u and not m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and not i and not u and m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and i and u and not m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and r and p and i and not u and m:
-        tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and p and i and not u and not m:
-        tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and p and i and u and not m:
-        tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and p and i and not u and m:
-        tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and p and i and u and m:
-        tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and i and u and m:
-        tab1 = data[(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and not i and u and m:
-        tab1 = data[(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and i and not u and m:
-        tab1 = data[(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and i and u and not m:
-        tab1 = data[(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and p and not i and not u and not m:
-        tab1 = data[data['category'].isin(p)].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and i and not u and not m:
-        tab1 = data[data['payment_type'].isin(i)].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and not i and u and not m:
-        tab1 = data[data['agent'].isin(u)].groupby(['reg_month', 'ranked_month'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
-    if not c and not r and not p and not i and not u and m:
-        tab1 = data[data['reg_month'].isin(m)].groupby(['reg_month', 'ranked_month', 'month_index'])[
-            ['total_paid', 'total_expect_amount']].sum().reset_index()
-        tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
-        tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
-        return tab1.to_dict('records')
+    grouped_data = filtered_data.groupby(['reg_month', 'ranked_month'])[['total_paid', 'total_expect_amount']].sum().reset_index()
+    grouped_data['Ratio %'] = np.round(grouped_data['total_paid'] / grouped_data['total_expect_amount'] * 100, 2)
+    sorted_data = grouped_data.sort_values(by=['reg_month', 'ranked_month'])
+    return sorted_data.to_dict('records')
+
+# def update_table(c,r,p,i,u,m):
+#     if not c and not r and not p and not i and not u and not m:
+#         tab1 = data.groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and not r and not p and not i and not u and not m:
+#         tab1 = data[data['country'].isin(c)].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and not p and not i and not u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and not r and p and not i and not u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['category'].isin(p))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and not r and not p and i and not u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and not r and not p and not i and u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and not r and not p and not i and not u and m:
+#         tab1 = data[(data['country'].isin(c))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and not i and not u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and not p and i and not u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and not p and not i and u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and not p and not i and not u and m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and i and not u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and not i and u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and not i and not u and m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and i and u and not m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and i and not u and m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if c and r and p and i and u and m:
+#         tab1 = data[(data['country'].isin(c))&(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and not p and not i and not u and not m:
+#         tab1 = data[data['region'].isin(r)].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and i and u and m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and not p and i and u and m:
+#         tab1 = data[(data['region'].isin(r))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and not p and not i and u and m:
+#         tab1 = data[(data['region'].isin(r))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and not p and not i and not u and m:
+#         tab1 = data[(data['region'].isin(r))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and not i and not u and not m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and i and not u and not m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and not i and u and not m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and not i and not u and m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and i and u and not m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and r and p and i and not u and m:
+#         tab1 = data[(data['region'].isin(r))&(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and p and i and not u and not m:
+#         tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and p and i and u and not m:
+#         tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and p and i and not u and m:
+#         tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and p and i and u and m:
+#         tab1 = data[(data['category'].isin(p))&(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and i and u and m:
+#         tab1 = data[(data['payment_type'].isin(i))&(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and not i and u and m:
+#         tab1 = data[(data['agent'].isin(u))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and i and not u and m:
+#         tab1 = data[(data['payment_type'].isin(i))&(data['reg_month'].isin(m))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and i and u and not m:
+#         tab1 = data[(data['payment_type'].isin(i))&(data['agent'].isin(u))].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and p and not i and not u and not m:
+#         tab1 = data[data['category'].isin(p)].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and i and not u and not m:
+#         tab1 = data[data['payment_type'].isin(i)].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and not i and u and not m:
+#         tab1 = data[data['agent'].isin(u)].groupby(['reg_month', 'ranked_month'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
+#     if not c and not r and not p and not i and not u and m:
+#         tab1 = data[data['reg_month'].isin(m)].groupby(['reg_month', 'ranked_month', 'month_index'])[
+#             ['total_paid', 'total_expect_amount']].sum().reset_index()
+#         tab1['Ratio %'] = np.round(tab1['total_paid'] / tab1['total_expect_amount'] * 100, 2)
+#         tab1 = tab1.sort_values(by=['reg_month', 'ranked_month'])
+#         return tab1.to_dict('records')
 @app.callback(
     Output('refresh', 'children'),
     Input('interval-component', 'n_intervals'))
