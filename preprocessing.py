@@ -15,7 +15,7 @@ df_expected['total_expect_amount'] = np.where(df_expected['cum_expect_amount']>d
 df_paid = df_paid.sort_values(by='month')
 df_paid['total_paid'] = df_paid.groupby('slug')['amount_paid'].cumsum()
 df_paid['month_index'] = df_paid['ranked_month'].apply(lambda t: 'M-'+str(t))
-df1  = pd.merge(df_expected,df_paid,on=['slug','month'],how='inner')
+df1  = pd.merge(df_expected,df_paid,on=['slug','month'],how='left')
 df1['registration_date'] = pd.to_datetime(df1['registration_date'], errors='coerce')
 df1["date_at"] = pd.to_datetime(df1["date_at"], errors='coerce')
 

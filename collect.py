@@ -19,11 +19,13 @@ def get_data():
     sql_file3 = open('query/expected_monthly.sql')
     sql_file4 = open('query/user_zone.sql')
     sql_file5 = open('query/group_products.sql')
+    sql_file6 = open('query/month_paid.sql')
     sql_text1 = sql_file1.read()
     sql_text2 = sql_file2.read()
     sql_text3 = sql_file3.read()
     sql_text4 = sql_file4.read()
     sql_text5 = sql_file5.read()
+    sql_text6 = sql_file6.read()
     try:
         connection = psycopg2.connect(user='postgres',
                                       password='3uyePAXP6J',
@@ -45,6 +47,8 @@ def get_data():
             df_zone.to_csv('Data/zones.csv', index=False)
             df_group = pd.read_sql_query(sql_text5, connection)
             df_group.to_csv('Data/group_products.csv', index=False)
+            df_onth_paid = pd.read_sql_query(sql_text6, connection)
+            df_onth_paid.to_csv('Data/month_paid.csv', index=False)
             print('data updated')
     except (Exception, Error) as error:
         print(" Connection failed, try again", error)
