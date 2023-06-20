@@ -1,6 +1,6 @@
 with expectation as (select *,(case when registration_date = date_at then arrhes
      					when invoice_model=0 and date_at != registration_date+interval'1 year' then 0 else price_program end) as expect_amount 
-					 	from (select a.id,a.slug,a.created_at::date as registration_date,(generate_series(a.created_at, (a.created_at+ interval  '1 month')::date + interval  '1 month'*g.month*3, '1 Month'))::date as date_at,
+					 	from (select a.id,a.slug,a.created_at::date as registration_date,(generate_series(a.created_at, (a.created_at+ interval  '1 month')::date + interval  '1 month'*g.month*2, '1 Month'))::date as date_at,
 (a.created_at::date + interval  '1 month'*g.month) end_contract_date,user_id,g.total_amount,a.group_id,g.name as group_name,g.arrhes,a.price_program,g.month,g.invoice_model,
 case when g.id_tenant = 1 then 'Senegal'
 	when g.id_tenant = 2 then 'Mali'
