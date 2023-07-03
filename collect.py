@@ -36,7 +36,7 @@ def get_data():
         cursor.execute("SELECT version();")
         record = cursor.fetchone()
         print('You are Successfully connected to - ', record, '\n')
-        if t.date.today().day == 1:
+        if t.date.today().day == 3:
             df_paid= pd.read_sql_query(sql_text1, connection)
             df_paid.to_csv('Data/payments.csv', index=False)
             df_annual = pd.read_sql_query(sql_text2, connection)

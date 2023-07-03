@@ -23,3 +23,5 @@ df1['reg_month'] = df1['registration_date'].apply(lambda t: t.strftime("%Y-%m"))
 data = pd.merge(df1,df_zone,on='slug',how='inner')
 data = pd.merge(data,df_prod,on='group_id',how='inner')
 data.to_csv('Data/finale_data.csv',index=False)
+
+print('data well processed')
