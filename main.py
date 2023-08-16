@@ -9,6 +9,7 @@ from dash.dependencies import Input, Output, State
 from dash import dash_table as dt
 import plotly.express as px
 from datetime import date
+from datetime import datetime as t
 from urllib.parse import quote as urlquote
 from flask import Flask, send_from_directory
 from plotly.subplots import make_subplots
@@ -80,7 +81,7 @@ app.layout = html.Div([
                                 )
                     ],width={'size': 6, 'offset':1}),
                     dbc.Col([
-                        html.P(id ='refresh' ,children='Last update  :  ' f'{date.today()}',
+                        html.P(id ='refresh' ,children='Last update  :  ' f'{t.today().strftime("%Y-%m-%d %H:%M")}',
                            style={
                                    'textAlign': 'right',
                                    'color': 'orange',
@@ -227,7 +228,7 @@ def update_table(c, r, p, i, u, m):
     return sorted_data.to_dict('records')
 
 @app.callback(
-    Output('refresh', 'children'),
+    Output('update-connection', 'children'),
     Input('interval-component', 'n_intervals'))
 def update(n):
     if n>0:
